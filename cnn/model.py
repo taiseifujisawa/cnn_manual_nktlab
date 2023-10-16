@@ -59,11 +59,23 @@ if __name__ == "__main__":
     print()
     
     x, t = train_set.__getitem__(123)     # 例として123番目のデータを取得
+    # 入力tensorは(batchsize, channel, height, width)のサイズでなければならない batchsize=1でも4次元にする DataLoaderを使えばこの問題は解消する
+    x = x.expand([1, 3, 32, 32])
+    
+    # 入力サイズは(1, in_channels, height, width) 出力サイズは(1, out_channels, height, width)  (K=3, S=1, P=1なのでheight, widthは変わらない)
+    conv_x = nn.Conv2d(in_channels=3, out_channels=100, kernel_size=3, padding=1)(x)
+    # 入力サイズは(1, channels, height, width) 出力サイズは(1, channels, height/2, width/2)  (K=S=2, P=0なのでheight, widthは半分 poolなのでchannelsも変わらない)
+    pool_x = F.max_pool2d(x, kernel_size=2)
+    print(f"in_size = {x.shape}, conv_out_size = {conv_x.shape}, pool_out_size = {pool_x.shape}")     
+    print()
+    
+    
+    x, t = train_set.__getitem__(123)     # 例として123番目のデータを取得
     
     # 入力tensorは(batchsize, channel, height, width)のサイズでなければならない batchsize=1でも4次元にする DataLoaderを使えばこの問題は解消する
     x = x.expand([1, 3, 32, 32])
     x.requires_grad = True
-    # 次元を(batchsize, n_class)にする(F.cross_entropyの警告回避) DataLoaderを使えばこの問題は解消する
+    # サイズを(batchsize)にする(F.cross_entropyの警告回避) batchsize=1でも1次元にする DataLoaderを使えばこの問題は解消する
     t = torch.tensor(t).expand([1])
     
     y = model(x)    

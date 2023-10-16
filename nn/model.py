@@ -51,8 +51,16 @@ if __name__ == "__main__":
     print()
     
     x, t = dataset.__getitem__(123)     # 例として123番目のデータを取得
+    x = torch.tensor(x)
+    
+    fc_x = nn.Linear(in_features=8, out_features=100)(x)
+    print(f"in_size = {x.shape}, out_size = {fc_x.shape}")     # 入力サイズは(in_features) 出力サイズは(out_features)
+    print()
+    
+    
+    x, t = dataset.__getitem__(123)     # 例として123番目のデータを取得
     x = torch.tensor(x, requires_grad=True)
-    t = torch.tensor([t])  # tはxと次元数が違うので[t]と書いて合わせる(F.mse_lossの警告回避) 後でDataLoaderを勉強すればこの問題は解消する
+    t = torch.tensor(t).expand([1])  # tはxと次元数が違うので合わせる(F.mse_lossの警告回避) 後でDataLoaderを勉強すればこの問題は解消する
     
     # modelにtensorを入力(__call__メソッドのように、インスタンスに対して直接引数を入れればforwardメソッドが呼び出せる もちろん y = model.forward(x) でもOK)
     y = model(x)    
