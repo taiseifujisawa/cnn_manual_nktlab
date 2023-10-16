@@ -11,22 +11,24 @@ train_loader = DataLoader(dataset=train_set, batch_size=100, shuffle=True)
 first_batch = next(iter(train_loader))                              # イテレータにしてnextで最初のミニバッチを取り出す
 
 
-print(f"torch.cuda.is_available() = {torch.cuda.is_available()}")
+print(f"torch.cuda.is_available() = {torch.cuda.is_available()}")   # GPUが使える環境ならTrue
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cuda" if torch.cuda.is_available() else "cpu"             # GPUが使える環境なら"cuda"
 
 x, t = first_batch
+print(f"x.device = {x.device}")                                     # まだCPU
+
+x = x.to(device)                                                    # GPUへ 非破壊処理なので変数xに再代入
 print(f"x.device = {x.device}")
 
-x.to(device)
-print(f"x.device = {x.device}")
-
-x_np = x.cpu().numpy()
+x_np = x.cpu().numpy()                                              # numpyメソッドはCPUのtensorにしか使えない
 print(f"type(x_np) = {type(x_np)}")
 
 model = MyModel()
-model.to(device)
-print(f"model.fc1.weight.device = {model.device}")
+print(f"model.fc1.weight.device = {model.fc1.weight.device}")       # まだCPU
 
-y = model(x)
-print(f"y.device = {y.device}")
+model.to(device)                                                    # GPUへ 破壊処理なので再代入はいらない
+print(f"model.fc1.weight.device = {model.fc1.weight.device}")
+
+y = model(x)                                                        # input tensor x, modelが両方GPUまたはCPUにいないとエラー
+print(f"y.device = {y.device}")                                     # GPU上のtensorで計算されて生成されたtensorはGPU上に配置される
