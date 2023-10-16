@@ -50,12 +50,12 @@ if __name__ == "__main__":
     
     print()
     
-    print(f"model.conv1.weight.data = {model.conv1.weight.data}")                       # 1層目conv.層のウェイト
+    # print(f"model.conv1.weight.data = {model.conv1.weight.data}")                       # 1層目conv.層のウェイト
     print(f"model.conv1.weight.data.shape = {model.conv1.weight.data.shape}")           # 1層目conv.層のウェイトのサイズ
-    print(f"model.conv2.bias.data = {model.conv2.bias.data}")                           # 2層目conv.層のバイアス
+    # print(f"model.conv2.bias.data = {model.conv2.bias.data}")                           # 2層目conv.層のバイアス
     print(f"model.conv2.bias.data.shape = {model.conv2.bias.data.shape}")               # 2層目conv.層のバイアスのサイズ
     print(f"model.conv3.weight.requires_grad = {model.conv3.weight.requires_grad}")     # 3層目conv.層のウェイトのrequires_grad(自動でTrueになっている)
-    print(f"model.conv3.weight.grad = {model.conv3.weight.grad}")                       # 3層目conv.層のウェイトのgrad(backwardがまだなのでNone)
+    # print(f"model.conv3.weight.grad = {model.conv3.weight.grad}")                       # 3層目conv.層のウェイトのgrad(backwardがまだなのでNone)
     print()
     
     x, t = train_set.__getitem__(123)     # 例として123番目のデータを取得
@@ -83,7 +83,8 @@ if __name__ == "__main__":
     # 今回は試しにcross-entropy Lossを計算 tはone-hotでなくてよい
     # この中でsoftmaxが勝手に計算されるのでモデルにsoftmaxを書かなくてよい
     loss = F.cross_entropy(y, t)
-    print(f"x = {x}\ny = {y}\nt = {t}\nloss = {loss}")      # 入力x、モデルの出力y、Cross-entropy Lossの値loss
+    # print(f"x = {x}\ny = {y}\nt = {t}\nloss = {loss}")      # 入力x、モデルの出力y、Cross-entropy Lossの値loss
+    print(f"x_size = {x.shape}, y_size = {y.shape}, ploss_size = {loss.shape}")     
     print()
     
     y.retain_grad()
@@ -92,15 +93,15 @@ if __name__ == "__main__":
     loss.backward()
     
     # 各tensorのgrad属性にlossに対する勾配が記録される
-    print(f"model.conv1.weight.grad = {model.conv1.weight.grad}")
+    # print(f"model.conv1.weight.grad = {model.conv1.weight.grad}")
     print(f"model.conv1.weight.grad.shape = {model.conv1.weight.grad.shape}")       # サイズ(out_channels, in_channels, kernel_height, kernel_width)
-    print(f"model.conv1.bias.grad = {model.conv1.bias.grad}")
+    # print(f"model.conv1.bias.grad = {model.conv1.bias.grad}")
     print(f"model.conv1.bias.grad.shape = {model.conv1.bias.grad.shape}")           # サイズ(out_channels)
-    print(f"x.grad = {x.grad}")
+    # print(f"x.grad = {x.grad}")
     print(f"x.grad.shape = {x.grad.shape}")
-    print(f"y.grad = {y.grad}")
+    # print(f"y.grad = {y.grad}")
     print(f"y.grad.shape = {y.grad.shape}")
-    print(f"loss.grad = {loss.grad}")
+    # print(f"loss.grad = {loss.grad}")
     print(f"loss.grad.shape = {loss.grad.shape}")
     print()
     
