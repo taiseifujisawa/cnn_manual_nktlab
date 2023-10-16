@@ -53,7 +53,7 @@ VERBOSE = False
 # 訓練フェーズ開始
 print("### Train ###")
 
-### 訓練モードに切り替え(元から) ###
+# 訓練モードに切り替え(元から)
 model.train()
 
 # エポックのループ
@@ -72,7 +72,7 @@ for ep in range(N_EPOCH):
         
         inputs, labels = data
         outputs = model(inputs)
-        loss = F.cross_entropy(outputs, labels)
+        loss = F.cross_entropy(outputs, labels)     ### これにsoftmaxも含まれている modelにはsoftmaxを書かない ###
         loss.backward()
         
         # 現時点でのgradを使って全パラメータを一度に更新
@@ -102,16 +102,16 @@ for ep in range(N_EPOCH):
     
     running_loss = 0.0              # エポック毎のlossの合計(val.用)
 
-    ### 推論モードに切り替え ###
+    # 推論モードに切り替え
     model.eval()
     
-    ### with torch.no_grad(): コンテキスト内は一切計算グラフが構築されない ###
+    # with torch.no_grad(): コンテキスト内は一切計算グラフが構築されない
     with torch.no_grad():
         # ミニバッチのループ
         for data in val_loader:
             inputs, labels = data
             outputs = model(inputs)
-            loss = F.cross_entropy(outputs, labels)
+            loss = F.cross_entropy(outputs, labels)         ### これにsoftmaxも含まれている modelにはsoftmaxを書かない ###
             running_loss += loss.item()
             n_total += labels.shape[0]
             predictions = torch.argmax(outputs, dim=1)
@@ -128,7 +128,7 @@ for ep in range(N_EPOCH):
 model_save_path = "./log/cnnmodel.pth"
 torch.save(model.state_dict(), model_save_path)
 
-### 保存したモデルをロードするときはまずはインスタンス化 ### 
+# 保存したモデルをロードするときはまずはインスタンス化 
 model_test = MyCnnModel()
 model_test.load_state_dict(torch.load(model_save_path))
 
@@ -142,13 +142,13 @@ with torch.no_grad():
     for data in test_loader:
         inputs, labels = data
         outputs = model_test(inputs)
-        softmax_out = F.softmax(outputs, dim=1)        # 確信度を求めるなら手動でsoftmaxを通す
+        softmax_out = F.softmax(outputs, dim=1)         ### 確信度を求めるなら手動でsoftmaxを通す modelにはsoftmaxが書かれていない ###
         # 冗長だけど許してちょ
         for o, l, s in zip(outputs.numpy(), labels.numpy(), softmax_out.numpy()):
             predictions_list.append(np.argmax(o).item())
             answers_list.append(l.item())
             confidence_list.append(s.max().item())
-        loss = F.cross_entropy(outputs, labels)
+        loss = F.cross_entropy(outputs, labels)         ### これにsoftmaxも含まれている modelにはsoftmaxを書かない ###
         running_loss += loss.item()
         n_total += labels.shape[0]
         predictions = torch.argmax(outputs, dim=1)
