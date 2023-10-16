@@ -124,7 +124,7 @@ for ep in range(N_EPOCH):
     n_correct = 0
     running_loss = 0.0
 
-### モデルを保存 ###
+# モデルを保存
 model_save_path = "./log/cnnmodel.pth"
 torch.save(model.state_dict(), model_save_path)
 
