@@ -42,12 +42,12 @@ if __name__ == "__main__":
     
     model = MyModel()   # モデルのインスタンス化
     
-    print(f"model.fc1.weight.data = {model.fc1.weight.data}")                       # 1層目全結合層のウェイト
+    # print(f"model.fc1.weight.data = {model.fc1.weight.data}")                       # 1層目全結合層のウェイト
     print(f"model.fc1.weight.data.shape = {model.fc1.weight.data.shape}")           # 1層目全結合層のウェイトのサイズ
-    print(f"model.fc2.bias.data = {model.fc2.bias.data}")                           # 2層目全結合層のバイアス
+    # print(f"model.fc2.bias.data = {model.fc2.bias.data}")                           # 2層目全結合層のバイアス
     print(f"model.fc2.bias.data.shape = {model.fc2.bias.data.shape}")               # 2層目全結合層のバイアスのサイズ
     print(f"model.fc3.weight.requires_grad = {model.fc3.weight.requires_grad}")     # 3層目全結合層のウェイトのrequires_grad(自動でTrueになっている)
-    print(f"model.fc3.weight.grad = {model.fc3.weight.grad}")                       # 3層目全結合層のウェイトのgrad(backwardがまだなのでNone)
+    # print(f"model.fc3.weight.grad = {model.fc3.weight.grad}")                       # 3層目全結合層のウェイトのgrad(backwardがまだなのでNone)
     print()
     
     x, t = dataset.__getitem__(123)     # 例として123番目のデータを取得
@@ -74,15 +74,15 @@ if __name__ == "__main__":
     loss.backward()
     
     # 各tensorのgrad属性にlossに対する勾配が記録される
-    print(f"model.fc1.weight.grad = {model.fc1.weight.grad}")
+    # print(f"model.fc1.weight.grad = {model.fc1.weight.grad}")
     print(f"model.fc1.weight.grad.shape = {model.fc1.weight.grad.shape}")       # サイズ(out_features, in_features)
-    print(f"model.fc1.bias.grad = {model.fc1.bias.grad}")
+    # print(f"model.fc1.bias.grad = {model.fc1.bias.grad}")
     print(f"model.fc1.bias.grad.shape = {model.fc1.bias.grad.shape}")           # サイズ(out_features)
-    print(f"x.grad = {x.grad}")
+    # print(f"x.grad = {x.grad}")
     print(f"x.grad.shape = {x.grad.shape}")
-    print(f"y.grad = {y.grad}")
+    # print(f"y.grad = {y.grad}")
     print(f"y.grad.shape = {y.grad.shape}")
-    print(f"loss.grad = {loss.grad}")
+    # print(f"loss.grad = {loss.grad}")
     print(f"loss.grad.shape = {loss.grad.shape}")
     print()
     
