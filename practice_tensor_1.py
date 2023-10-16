@@ -25,6 +25,14 @@ print(f"c.dtype = {c.dtype}")       # 1と書くとint型(torch.int64)になる
 print(f"c.numel() = {c.numel()}")
 print()
 
+c_ex = c.expand([1, 2, 3])          # (2,3)tensorに1次元追加
+print(f"type(c_ex) = {type(c_ex)}")                  
+print(f"c_ex.shape = {c_ex.shape}")
+print(f"c_ex.ndim = {c_ex.ndim}")
+print(f"c_ex.dtype = {c_ex.dtype}")
+print(f"c_ex.numel() = {c_ex.numel()}")
+print()
+
 d = torch.tensor([[[1., 2., 3],[4, 5, 6]],
                   [[7, 8, 9],[0, 1, 2]],
                   [[3, 4, 5],[6, 7., 8]],
