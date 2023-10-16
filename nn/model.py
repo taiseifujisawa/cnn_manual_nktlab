@@ -66,10 +66,10 @@ if __name__ == "__main__":
     loss.backward()
     
     # 各tensorのgrad属性にlossに対する勾配が記録される
-    print(f"model.fc3.weight.grad = {model.fc3.weight.grad}")
-    print(f"model.fc3.weight.grad.shape = {model.fc3.weight.grad.shape}")
-    print(f"model.fc3.bias.grad = {model.fc3.bias.grad}")
-    print(f"model.fc3.bias.grad.shape = {model.fc3.bias.grad.shape}")
+    print(f"model.fc1.weight.grad = {model.fc1.weight.grad}")
+    print(f"model.fc1.weight.grad.shape = {model.fc1.weight.grad.shape}")       # サイズ(out_features, in_features)
+    print(f"model.fc1.bias.grad = {model.fc1.bias.grad}")
+    print(f"model.fc1.bias.grad.shape = {model.fc1.bias.grad.shape}")           # サイズ(out_features)
     print(f"x.grad = {x.grad}")
     print(f"x.grad.shape = {x.grad.shape}")
     print(f"y.grad = {y.grad}")

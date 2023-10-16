@@ -80,10 +80,10 @@ if __name__ == "__main__":
     loss.backward()
     
     # 各tensorのgrad属性にlossに対する勾配が記録される
-    print(f"model.conv3.weight.grad = {model.conv3.weight.grad}")
-    print(f"model.conv3.weight.grad.shape = {model.conv3.weight.grad.shape}")
-    print(f"model.conv3.bias.grad = {model.conv3.bias.grad}")
-    print(f"model.conv3.bias.grad.shape = {model.conv3.bias.grad.shape}")
+    print(f"model.conv1.weight.grad = {model.conv1.weight.grad}")
+    print(f"model.conv1.weight.grad.shape = {model.conv1.weight.grad.shape}")       # サイズ(out_channels, in_channels, kernel_height, kernel_width)
+    print(f"model.conv1.bias.grad = {model.conv1.bias.grad}")
+    print(f"model.conv1.bias.grad.shape = {model.conv1.bias.grad.shape}")           # サイズ(out_channels)
     print(f"x.grad = {x.grad}")
     print(f"x.grad.shape = {x.grad.shape}")
     print(f"y.grad = {y.grad}")
