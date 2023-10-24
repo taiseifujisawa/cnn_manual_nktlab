@@ -47,11 +47,12 @@ VERBOSE = False
 # 訓練フェーズ開始
 print("### Train ###")
 
-### 訓練モードに切り替え(元から) ###
-model.train()
 
 # エポックのループ
 for ep in range(N_EPOCH):
+    ### 訓練モードに切り替え(元から) ###
+    model.train()
+
     bat_running_loss = 0.0  # バッチ毎のlossの合計
     ep_running_loss = 0.0   # エポック毎のlossの合計
     n_total = 0             # 全データ数をカウント
