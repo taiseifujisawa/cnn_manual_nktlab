@@ -127,7 +127,7 @@ for ep in range(N_EPOCH):
 
 
 # モデルを保存
-model_save_path = "./log/model"
+model_save_path = "./log/model_nn"
 model.save_weights(model_save_path)
 
 # 試しに初期状態のモデルを使って回帰してみる(的外れな結果になる)
