@@ -6,7 +6,7 @@ from logging_controller import Logger
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 
-from utils import NnRegModel
+from model import NnRegModel
 
 # 乱数シードを1で固定
 set_seed(seed=1)

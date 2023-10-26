@@ -6,7 +6,7 @@ from logging_controller import Logger
 
 from sklearn.model_selection import train_test_split
 
-from utils import CnnClsModel
+from model import CnnClsModel
 
 # 乱数シードを1で固定
 set_seed(seed=1)
