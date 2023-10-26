@@ -48,7 +48,7 @@ optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
 model.compile(optimizer=optimizer, loss=loss_func, metrics=[metric])
 
 # エポック数
-N_EPOCH = 5
+N_EPOCH = 50
 # バッチサイズ
 BATCH_SIZE = 100
 
