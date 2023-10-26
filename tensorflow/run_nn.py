@@ -1,5 +1,4 @@
 import tensorflow as tf
-tf.data.Dataset
 import sys
 from set_seed import set_seed
 from logging_controller import Logger
