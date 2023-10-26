@@ -75,6 +75,6 @@ predictions = model.predict(x=X_test, batch_size=BATCH_SIZE, verbose=0)
 # 推論結果と教師ラベルをcsv形式で出力
 output_filepath = "./log/test_result_cnn.csv"
 with open(output_filepath, "w") as f:
-    f.write("index,confidence,prediction,answer\n")
+    f.write("index,prediction,answer\n")
     for i, (p, a) in enumerate(zip(predictions, y_test)):
         f.write("{},{},{}\n".format(i + 1, np.argmax(p), a.item()))
