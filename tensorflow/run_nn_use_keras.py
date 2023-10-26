@@ -29,7 +29,7 @@ val_set = tf.data.Dataset.from_tensor_slices((X_val, y_val)).batch(BATCH_SIZE)
 test_set = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(BATCH_SIZE)
 """
 
-### モデルを簡単に作る ###
+### モデルを簡単に作る Sequential API ###
 """model = NnRegModel()"""
 model = tf.keras.models.Sequential()
 model.add(tf.keras.layers.Dense(units=100, activation="relu"))
