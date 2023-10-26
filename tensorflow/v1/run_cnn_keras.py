@@ -60,7 +60,7 @@ print("### Train ###")
 # ミニバッチやエポックのループは全部fitメソッドがやってくれるので書かない
 # 戻り値は辞書型で、エポックごとのlossとmetricsを記録したもの
 # verbose=2ではエポックごとにlog出力
-history = model.fit(x=X_train, y=y_train, batch_size=BATCH_SIZE, epochs=N_EPOCH, validation_split=0.2, shuffle=True, validation_batch_size=BATCH_SIZE, verbose=2)
+history = model.fit(x=X_train, y=y_train, batch_size=BATCH_SIZE, epochs=N_EPOCH, validation_split=0.2, shuffle=True, verbose=2)
 
 print(history.history)
 
