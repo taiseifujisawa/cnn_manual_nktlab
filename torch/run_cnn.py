@@ -58,53 +58,49 @@ for ep in range(N_EPOCH):
     # 訓練モードに切り替え(元から)
     model.train()
 
-    bat_running_loss = 0.0  # バッチ毎のlossの合計
     ep_running_loss = 0.0   # エポック毎のlossの合計
     n_total = 0             # 全データ数をカウント
     n_correct = 0           # 正解数をカウント
-    
+
     print("[epoch, batch]")
     # ミニバッチのループ
     for i, data in enumerate(train_loader):
-        
+
         # 勾配を全てリセット
         optimizer.zero_grad()
-        
+
         inputs, labels = data
         outputs = model(inputs)
         loss = F.cross_entropy(outputs, labels)     ### これにsoftmaxも含まれている modelにはsoftmaxを書かない ###
         loss.backward()
-        
+
         # 現時点でのgradを使って全パラメータを一度に更新
         optimizer.step()
-        
-        bat_running_loss += loss.item()     # スカラーtensorはitemメソッドでpython標準の型にキャストできる
+
         ep_running_loss += loss.item()
         n_total += labels.shape[0]
         predictions = torch.argmax(outputs, dim=1)          # 値が最も大きいindexがpredictionになる
         n_correct += (predictions == labels).sum().item()   # 正解数を数える
-        
+
         if VERBOSE:
             # ミニバッチ毎にlossの平均値をprint
             print('[{:5d}, {:5d}] train loss: {:.3f}'
-                    .format(ep+1, i+1, bat_running_loss / labels.shape[0]))
-            
-        bat_running_loss = 0.0      # ミニバッチのループの最後なのでリセット
-    
+                    .format(ep+1, i+1, loss.item() / labels.shape[0]))
+
     # エポック毎にlossの平均値をprint
     print('[{:5d},   all] train loss: {:.3f}, train accuracy: {:.4f}'
             .format(ep+1, ep_running_loss / n_total, n_correct / n_total))
-    
+
     n_total = 0                     # 訓練はエポックのループの最後なのでリセット
     n_correct = 0
     ep_running_loss = 0.0
-    
-    
+
+
     running_loss = 0.0              # エポック毎のlossの合計(val.用)
 
     # 推論モードに切り替え
     model.eval()
-    
+
     # with torch.no_grad(): コンテキスト内は一切計算グラフが構築されない
     with torch.no_grad():
         # ミニバッチのループ
@@ -119,7 +115,7 @@ for ep in range(N_EPOCH):
     # エポック毎にlossの平均値をprint
     print('val. loss: {:.3f}, val. accuracy: {:.4f}'
             .format(running_loss / n_total, n_correct / n_total))
-    
+
     n_total = 0                     # エポックのループの最後なのでリセット
     n_correct = 0
     running_loss = 0.0
@@ -128,7 +124,7 @@ for ep in range(N_EPOCH):
 model_save_path = "./log/cnnmodel.pth"
 torch.save(model.state_dict(), model_save_path)
 
-# 保存したモデルをロードするときはまずはインスタンス化 
+# 保存したモデルをロードするときはまずはインスタンス化
 model_test = MyCnnModel()
 model_test.load_state_dict(torch.load(model_save_path))
 

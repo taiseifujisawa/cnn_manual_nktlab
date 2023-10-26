@@ -53,49 +53,45 @@ for ep in range(N_EPOCH):
     ### 訓練モードに切り替え(元から) ###
     model.train()
 
-    bat_running_loss = 0.0  # バッチ毎のlossの合計
     ep_running_loss = 0.0   # エポック毎のlossの合計
     n_total = 0             # 全データ数をカウント
-    
+
     print("[epoch, batch]")
     # ミニバッチのループ
     for i, data in enumerate(train_loader):
-        
+
         # 勾配を全てリセット
         optimizer.zero_grad()
-        
+
         inputs, labels = data
         outputs = model(inputs)
         loss = F.mse_loss(outputs, labels)
         loss.backward()
-        
+
         # 現時点でのgradを使って全パラメータを一度に更新
         optimizer.step()
-        
-        bat_running_loss += loss.item()     # スカラーtensorはitemメソッドでpython標準の型にキャストできる
-        ep_running_loss += loss.item()
+
+        ep_running_loss += loss.item()     # スカラーtensorはitemメソッドでpython標準の型にキャストできる
         n_total += labels.shape[0]
-        
+
         if VERBOSE:
             # ミニバッチ毎にlossの平均値をprint
             print('[{:5d}, {:5d}] train loss: {:.3f}'
-                    .format(ep+1, i+1, bat_running_loss / labels.shape[0]))
-            
-        bat_running_loss = 0.0      # ミニバッチのループの最後なのでリセット
-    
+                    .format(ep+1, i+1, loss / labels.shape[0]))
+
     # エポック毎にlossの平均値をprint
     print('[{:5d},   all] train loss: {:.3f}'
             .format(ep+1, ep_running_loss / n_total), end=", ")
-    
+
     n_total = 0                     # 訓練はエポックのループの最後なのでリセット
     ep_running_loss = 0.0
-    
-    
+
+
     running_loss = 0.0              # エポック毎のlossの合計(val.用)
 
     ### 推論モードに切り替え ###
     model.eval()
-    
+
     ### with torch.no_grad(): コンテキスト内は一切計算グラフが構築されない ###
     with torch.no_grad():
         # ミニバッチのループ
@@ -105,11 +101,11 @@ for ep in range(N_EPOCH):
             loss = F.mse_loss(outputs, labels)
             running_loss += loss.item()
             n_total += labels.shape[0]
-            
+
     # エポック毎にlossの平均値をprint
     print('val. loss: {:.3f}'
             .format(running_loss / n_total))
-    
+
     n_total = 0                     # エポックのループの最後なのでリセット
     running_loss = 0.0
 
@@ -129,7 +125,7 @@ with torch.no_grad():
         for o, l in zip(outputs.numpy(), labels.numpy()):
             predictions_before.append(o.item())
 
-### 保存したモデルをロードするときはまずはインスタンス化 ### 
+### 保存したモデルをロードするときはまずはインスタンス化 ###
 model_test = MyModel()
 model_test.load_state_dict(torch.load(model_save_path))
 
