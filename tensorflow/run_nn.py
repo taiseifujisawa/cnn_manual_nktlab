@@ -38,9 +38,6 @@ model = NnRegModel()
 # loss関数(MSE)のインスタンス化
 loss_func = tf.keras.losses.MeanSquaredError()
 
-# [任意]評価値(MSE)クラスのインスタンス化
-metric_batch = tf.keras.metrics.MeanSquaredError()
-
 # 最適化アルゴリズム(Adam)のインスタンス化
 # torchでは引数にmodel.parameters()を渡したがtfはそうしない
 optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
@@ -64,9 +61,6 @@ def train_on_batch(inputs, labels):
     # パラメータ更新 optimizer.apply_gradientsメソッドを呼び出し 引数は「勾配、現パラメータ値」の順で、リストやジェネレータで与える
     optimizer.apply_gradients(zip(gradients, model.trainable_weights))
 
-    # [任意]metricの記録
-    metric_batch.update_state(outputs, labels)            # 引数の順序がtorchと逆なので注意
-
     return loss     # 任意
 
 
@@ -81,17 +75,16 @@ for ep in range(N_EPOCH):
     print("[epoch, batch]")
     # ミニバッチのループ
     for i, data in enumerate(train_set):
-        metric_batch.reset_states()
         inputs, labels = data
         loss = train_on_batch(inputs, labels)
 
         n_total += labels.shape[0]
-        running_loss += metric_batch.result()
+        running_loss += loss
 
         if VERBOSE:
             # ミニバッチ毎にlossの平均値をprint
             print('[{:5d}, {:5d}] train loss: {:.3f}'
-                    .format(ep+1, i+1, metric_batch.result() / labels.shape[0]))
+                    .format(ep+1, i+1, loss / labels.shape[0]))
 
     # エポック毎にlossの平均値をprint
     print('[{:5d},   all] train loss: {:.3f}'
@@ -105,8 +98,7 @@ for ep in range(N_EPOCH):
         inputs, labels = data
         outputs = model(inputs, training=False)     # 訓練モードはTrue、推論モードはFalse
         loss = loss_func(labels, outputs)
-        metric_batch.update_state(outputs, labels)
-        running_loss += metric_batch.result()
+        running_loss += loss
 
         n_total += labels.shape[0]
 
@@ -135,6 +127,7 @@ model_test.load_weights(model_save_path)
 print("### Test ###")
 predictions = []
 answers = []
+running_loss = 0
 for data in test_set:
     inputs, labels = data
     outputs = model_test(inputs, training=False)
@@ -142,8 +135,7 @@ for data in test_set:
         predictions.append(o.item())
         answers.append(l.item())
     loss = loss_func(labels, outputs)
-    metric_batch.update_state(outputs, labels)
-    running_loss += metric_batch.result()
+    running_loss += loss
     n_total += labels.shape[0]
 print('test loss: {:.3f}'
         .format(running_loss / n_total))
