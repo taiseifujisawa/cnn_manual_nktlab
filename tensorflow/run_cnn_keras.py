@@ -60,6 +60,8 @@ print("### Train ###")
 # verbose=2ではエポックごとにlog出力
 history = model.fit(x=X_train, y=y_train, batch_size=BATCH_SIZE, epochs=N_EPOCH, validation_split=0.2, shuffle=True, validation_batch_size=BATCH_SIZE, verbose=2)
 
+print(history.history)
+
 # モデルを保存
 model_save_path = "./log/model_cnn"
 model.save_weights(model_save_path)
@@ -68,7 +70,7 @@ model.save_weights(model_save_path)
 print("### Test ###")
 # evaluate, predict関数がやってくれるのでループは書かない
 test_loss, test_metrics = model.evaluate(x=X_test, y=y_test, batch_size=BATCH_SIZE, verbose=2)
-predictions = model.predict(x=X_test, batch_size=BATCH_SIZE, verbose=2)
+predictions = model.predict(x=X_test, batch_size=BATCH_SIZE, verbose=0)
 
 # 推論結果と教師ラベルをcsv形式で出力
 output_filepath = "./log/test_result_cnn.csv"
