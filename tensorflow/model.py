@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-# tfのモデルはtf.keras.Modelを継承するのがルール Subclass API
+# tfのモデルはtf.keras.Modelを継承するのがルール Subclassing API
 class NnRegModel(tf.keras.Model):
     def __init__(self):
         super().__init__()
