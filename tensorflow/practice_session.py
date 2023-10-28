@@ -21,7 +21,7 @@ print(f"x_2.shape = {x_2.shape}")
 print(f"x_2.dtype = {x_2.dtype}")
 print()
 
-# tf.constantは計算グラフ上の定数 NNで例えると、パラメータ(バイアス・ウェイト)
+# tf.constantは計算グラフ上の定数 NNで例えると、ハイパーパラメータ
 # sessの外では、計算グラフを構築するだけ constantの計算はまだされていない
 c = tf.constant(4.)
 print(f"c = {c}")
