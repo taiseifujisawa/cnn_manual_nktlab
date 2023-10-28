@@ -60,6 +60,7 @@ print("### Train ###")
 ### ミニバッチやエポックのループは全部fitメソッドがやってくれるので書かない ###
 ### 戻り値は辞書型で、エポックごとのlossとmetricsを記録したもの ###
 history = model.fit(x=X_train, y=y_train, batch_size=BATCH_SIZE, epochs=N_EPOCH, validation_split=0.001, shuffle=True, validation_batch_size=BATCH_SIZE)
+print(history.history)
 
 """
 # ミニバッチ1つ分の計算を関数化
